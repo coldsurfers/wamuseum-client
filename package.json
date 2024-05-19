@@ -3,16 +3,11 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev",
     "build": "next build",
-    "start": "next start",
+    "dev": "next dev",
     "lint": "next lint --fix",
-    "prepare": "husky install"
-  },
-  "workspaces": {
-    "nohoist": [
-      "**"
-    ]
+    "prepare": "husky install",
+    "start": "next start"
   },
   "dependencies": {
     "@apollo/client": "^3.7.3",
