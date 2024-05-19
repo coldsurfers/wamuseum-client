@@ -7,13 +7,13 @@ import {
 } from '@coldsurfers/hotsurf'
 import { useRouter } from 'next/navigation'
 import { useCallback, useEffect, useState, useRef } from 'react'
-import useLoginMutation from 'clients/billets-admin-client/hooks/useLoginMutation'
-import { ME_QUERY } from 'clients/billets-admin-client/hooks/useMeQuery'
-import storage from 'clients/billets-admin-client/utils/storage/storage'
-import Loader from 'clients/billets-admin-client/ui/Loader'
-// eslint-disable-next-line import/no-extraneous-dependencies
 import { View } from 'react-native'
 import styled from 'styled-components'
+import useLoginMutation from '@/hooks/useLoginMutation'
+import { ME_QUERY } from '@/hooks/useMeQuery'
+import storage from '@/utils/storage/storage'
+import Loader from '@/ui/Loader'
+// eslint-disable-next-line import/no-extraneous-dependencies
 
 const FormLayout = styled.section`
   position: absolute;
