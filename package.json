@@ -5,7 +5,8 @@
   "scripts": {
     "build": "next build",
     "dev": "next dev",
-    "lint": "next lint --fix",
+    "lint": "next lint",
+    "lint:fix": "yarn lint --fix",
     "prepare": "husky install",
     "start": "next start"
   },
