@@ -12,7 +12,7 @@ const httpLink = new HttpLink({
 })
 
 const authLink = setContext((_, { headers }) => {
-  const token = storage.get<string>('@billets/token')
+  const token = storage.get<string>('@wamuseum-client/auth-token')
   return {
     headers: {
       ...headers,
@@ -29,8 +29,8 @@ const errorLink = onError(({ graphQLErrors, forward, operation }) => {
         // Apollo Server sets code to UNAUTHENTICATED
         // when an AuthenticationError is thrown in a resolver
         case 401:
-          if (storage.get<string>('@billets/token')) {
-            storage.remove('@billets/token')
+          if (storage.get<string>('@wamuseum-client/auth-token')) {
+            storage.remove('@wamuseum-client/auth-token')
           }
           if (
             NON_AUTH_PATH_WHITE_LIST.every(
