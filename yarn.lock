@@ -752,6 +752,11 @@
     style-dictionary "^3.7.1"
     typescript "^4.8.3"
 
+"@coldsurfers/zod-schema@^0.1.1-rc.0":
+  version "0.1.1-rc.0"
+  resolved "https://npm.pkg.github.com/download/@coldsurfers/zod-schema/0.1.1-rc.0/d681e615ab8a5202ba9301f296249d618786e54b#d681e615ab8a5202ba9301f296249d618786e54b"
+  integrity sha512-DVnYB/CtIzzXhFQ8KbWX9Ke8JVwYkJ6Kxwu6DR1puFY9GyDg6nprk0w8scQQoOgtxOIvS7PtMxz8t8m5gW7vHw==
+
 "@emotion/is-prop-valid@1.2.1":
   version "1.2.1"
   resolved "https://registry.yarnpkg.com/@emotion/is-prop-valid/-/is-prop-valid-1.2.1.tgz#23116cf1ed18bfeac910ec6436561ecb1a3885cc"
