@@ -59,7 +59,7 @@ const SigninPage = () => {
         setErrorMessage(login.message)
         break
       case 'UserWithToken':
-        storage.set('@billets/token', login.token)
+        storage.set('@wamuseum-client/auth-token', login.token)
         client.refetchQueries({
           include: [ME_QUERY],
         })
