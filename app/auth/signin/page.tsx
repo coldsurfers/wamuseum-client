@@ -58,8 +58,13 @@ const SigninPage = () => {
       case 'HttpError':
         setErrorMessage(login.message)
         break
-      case 'UserWithToken':
-        storage.set('@wamuseum-client/auth-token', login.token)
+      case 'UserWithAuthToken':
+        storage.set(
+          '@wamuseum-client/auth-token',
+          JSON.stringify({
+            ...login.authToken,
+          })
+        )
         client.refetchQueries({
           include: [ME_QUERY],
         })

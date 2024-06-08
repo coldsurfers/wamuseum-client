@@ -10,8 +10,11 @@ import { LoginData } from '../gql/schema'
 const Mutation = gql`
   mutation Mutation($input: LoginInput!) {
     login(input: $input) {
-      ... on UserWithToken {
-        token
+      ... on UserWithAuthToken {
+        authToken {
+          accessToken
+          refreshToken
+        }
         user {
           createdAt
           email
