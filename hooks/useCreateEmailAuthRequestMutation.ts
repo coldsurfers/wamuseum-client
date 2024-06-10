@@ -1,16 +1,6 @@
-import { gql, useMutation } from '@apollo/client'
+import { useMutation } from '@apollo/client'
 import { EmailAuthRequest } from '../gql/schema'
-
-const Mutation = gql`
-  mutation CreateEmailAuthRequest($input: CreateEmailAuthRequestInput!) {
-    createEmailAuthRequest(input: $input) {
-      authenticated
-      createdAt
-      email
-      id
-    }
-  }
-`
+import { CreateEmailAuthRequestMutation } from '../gql/mutations'
 
 export default function useCreateEmailAuthRequestMutation() {
   return useMutation<
@@ -22,5 +12,5 @@ export default function useCreateEmailAuthRequestMutation() {
         email: string
       }
     }
-  >(Mutation)
+  >(CreateEmailAuthRequestMutation)
 }

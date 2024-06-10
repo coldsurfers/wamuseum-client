@@ -99,7 +99,7 @@ const AuthRequestForm = ({}: Props) => {
             marginBottom: 14,
           }}
         >
-          Billets 어드민
+          ColdSurf 어드민
         </Text>
         <TextInput
           placeholder="이메일"

@@ -19,7 +19,7 @@ const Header = () => {
   }, [data, meLoading])
   const handleLogout = useCallback(() => {
     setShowLoader(true)
-    storage.remove('@billets/token')
+    storage.remove('@wamuseum-client/auth-token')
     client.refetchQueries({
       include: [ME_QUERY],
     })
@@ -32,7 +32,7 @@ const Header = () => {
 
   return (
     <Wrapper>
-      <Title onClick={() => router.push('/')}>Billets 어드민</Title>
+      <Title onClick={() => router.push('/')}>ColdSurf 어드민</Title>
       <ButtonPositioner>
         {me && (
           <>

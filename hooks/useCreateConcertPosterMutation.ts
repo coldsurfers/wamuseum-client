@@ -1,26 +1,11 @@
 import {
   ApolloCache,
   DefaultContext,
-  gql,
   MutationHookOptions,
   useMutation,
 } from '@apollo/client'
 import { CreateConcertPosterData } from '../gql/schema'
-
-const Mutation = gql`
-  mutation CreateConcertPoster($input: CreateConcertPosterInput!) {
-    createConcertPoster(input: $input) {
-      ... on ConcertPoster {
-        id
-        imageURL
-      }
-      ... on HttpError {
-        code
-        message
-      }
-    }
-  }
-`
+import { CreateConcertPosterMutation } from '../gql/mutations'
 
 export default function useCreateConcertPosterMutation(
   options?: MutationHookOptions<
@@ -40,5 +25,5 @@ export default function useCreateConcertPosterMutation(
         concertId: number
       }
     }
-  >(Mutation, options)
+  >(CreateConcertPosterMutation, options)
 }

@@ -4,6 +4,7 @@ import { ApolloClient, HttpLink, InMemoryCache } from '@apollo/client'
 import { setContext } from '@apollo/client/link/context'
 import { onError } from '@apollo/client/link/error'
 import storage from '../utils/storage/storage'
+import { AuthToken } from './schema'
 
 const NON_AUTH_PATH_WHITE_LIST = ['/auth/signin', '/auth/request']
 
@@ -12,11 +13,17 @@ const httpLink = new HttpLink({
 })
 
 const authLink = setContext((_, { headers }) => {
-  const token = storage.get<string>('@billets/token')
+  const authToken = storage.get<string>('@wamuseum-client/auth-token')
+  const parsed: AuthToken = authToken
+    ? JSON.parse(authToken)
+    : {
+        accessToken: '',
+        refreshToken: '',
+      }
   return {
     headers: {
       ...headers,
-      authorization: token ? `${token}` : '',
+      authorization: parsed ? `${parsed.accessToken}` : '',
     },
   }
 })
@@ -29,8 +36,8 @@ const errorLink = onError(({ graphQLErrors, forward, operation }) => {
         // Apollo Server sets code to UNAUTHENTICATED
         // when an AuthenticationError is thrown in a resolver
         case 401:
-          if (storage.get<string>('@billets/token')) {
-            storage.remove('@billets/token')
+          if (storage.get<string>('@wamuseum-client/auth-token')) {
+            storage.remove('@wamuseum-client/auth-token')
           }
           if (
             NON_AUTH_PATH_WHITE_LIST.every(

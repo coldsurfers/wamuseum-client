@@ -29,13 +29,18 @@ export type CreateUserData = User | HttpError | null
 
 export type MeData = User | HttpError | null
 
-export interface UserWithToken {
-  __typename: 'UserWithToken'
-  user: User
-  token: string
+export type AuthToken = {
+  accessToken: string
+  refreshToken: string
 }
 
-export type LoginData = UserWithToken | HttpError | null
+export interface UserWithAuthToken {
+  __typename: 'UserWithAuthToken'
+  user: User
+  authToken: AuthToken
+}
+
+export type LoginData = UserWithAuthToken | HttpError | null
 
 export interface ConcertPoster {
   __typename: 'ConcertPoster'

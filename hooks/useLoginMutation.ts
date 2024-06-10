@@ -1,31 +1,11 @@
 import {
   ApolloCache,
   DefaultContext,
-  gql,
   MutationHookOptions,
   useMutation,
 } from '@apollo/client'
 import { LoginData } from '../gql/schema'
-
-const Mutation = gql`
-  mutation Mutation($input: LoginInput!) {
-    login(input: $input) {
-      ... on UserWithToken {
-        token
-        user {
-          createdAt
-          email
-          id
-          isAdmin
-        }
-      }
-      ... on HttpError {
-        code
-        message
-      }
-    }
-  }
-`
+import { LoginMutation } from '../gql/mutations'
 
 export default function useLoginMutation(
   options?: MutationHookOptions<
@@ -45,5 +25,5 @@ export default function useLoginMutation(
         password: string
       }
     }
-  >(Mutation, options)
+  >(LoginMutation, options)
 }

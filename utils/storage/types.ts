@@ -1,1 +1,1 @@
-export type StorageItem = '@billets/token'
+export type StorageItem = '@wamuseum-client/auth-token'
