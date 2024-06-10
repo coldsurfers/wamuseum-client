@@ -1,25 +1,11 @@
 import {
   ApolloCache,
   DefaultContext,
-  gql,
   MutationHookOptions,
   useMutation,
 } from '@apollo/client'
 import { RemoveConcertData } from '../gql/schema'
-
-const REMOVE_CONCERT_MUTATION = gql`
-  mutation RemoveConcert($input: RemoveConcertInput!) {
-    removeConcert(input: $input) {
-      ... on RemovedConcert {
-        id
-      }
-      ... on HttpError {
-        code
-        message
-      }
-    }
-  }
-`
+import { REMOVE_CONCERT_MUTATION } from '../gql/mutations'
 
 export default function useRemoveConcertMutation(
   options?: MutationHookOptions<

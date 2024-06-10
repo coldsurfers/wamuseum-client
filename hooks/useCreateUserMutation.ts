@@ -1,22 +1,6 @@
-import { gql, useMutation } from '@apollo/client'
+import { useMutation } from '@apollo/client'
 import { CreateUserData } from '../gql/schema'
-
-const Mutation = gql`
-  mutation CreateUser($input: CreateUserInput!) {
-    createUser(input: $input) {
-      ... on User {
-        createdAt
-        email
-        id
-        isAdmin
-      }
-      ... on HttpError {
-        code
-        message
-      }
-    }
-  }
-`
+import { CreateUserMutation } from '../gql/mutations'
 
 export default function useCreateUserMutation() {
   return useMutation<
@@ -30,5 +14,5 @@ export default function useCreateUserMutation() {
         passwordConfirm: string
       }
     }
-  >(Mutation)
+  >(CreateUserMutation)
 }

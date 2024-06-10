@@ -1,47 +1,11 @@
 import {
   ApolloCache,
   DefaultContext,
-  gql,
   MutationHookOptions,
   useMutation,
 } from '@apollo/client'
 import { CreateConcertData, CreateConcertInput } from '../gql/schema'
-
-const Mutation = gql`
-  mutation CreateConcert($input: CreateConcertInput!) {
-    createConcert(input: $input) {
-      ... on Concert {
-        id
-        artist
-        title
-        location
-        date
-        posters {
-          id
-          imageURL
-        }
-        tickets {
-          id
-          openDate
-          seller
-          sellingURL
-          ticketPrices {
-            id
-            title
-            price
-            priceCurrency
-          }
-        }
-        createdAt
-        updatedAt
-      }
-      ... on HttpError {
-        code
-        message
-      }
-    }
-  }
-`
+import { CreateConcertMutation } from '../gql/mutations'
 
 export default function useCreateConcertMutation(
   options?: MutationHookOptions<
@@ -60,5 +24,5 @@ export default function useCreateConcertMutation(
     {
       input: CreateConcertInput
     }
-  >(Mutation, options)
+  >(CreateConcertMutation, options)
 }
