@@ -121,6 +121,17 @@ export const LoginMutation = gql`
   }
 `
 
+export const LogoutMutation = gql`
+  mutation Logout {
+    logout {
+      ... on User {
+        id
+        email
+      }
+    }
+  }
+`
+
 export const REMOVE_CONCERT_MUTATION = gql`
   mutation RemoveConcert($input: RemoveConcertInput!) {
     removeConcert(input: $input) {

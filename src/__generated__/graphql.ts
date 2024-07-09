@@ -178,6 +178,7 @@ export type Mutation = {
   createEmailAuthRequest?: Maybe<EmailAuthRequest>;
   createUser?: Maybe<CreateUserData>;
   login?: Maybe<LoginData>;
+  logout: User;
   removeConcert?: Maybe<RemoveConcertData>;
   updateConcert?: Maybe<UpdateConcertData>;
   updateConcertPoster?: Maybe<UpdateConcertPosterData>;
