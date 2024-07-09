@@ -2,16 +2,23 @@ import { Button, palette } from '@coldsurfers/hotsurf'
 import { useRouter, usePathname } from 'next/navigation'
 import { memo, useCallback, useEffect, useMemo, useState } from 'react'
 import styled from 'styled-components'
+import { useMutation } from '@apollo/client'
 import useMeQuery from '../hooks/useMeQuery'
 import storage from '../utils/storage/storage'
 import Loader from './Loader'
 import { ME_QUERY } from '../gql/queries'
+import { LogoutMutation } from '../gql/mutations'
+import { Mutation } from '../src/__generated__/graphql'
 
 const Header = () => {
   const router = useRouter()
   const pathname = usePathname()
   const [showLoader, setShowLoader] = useState<boolean>(false)
   const { data, loading: meLoading, refetch, client } = useMeQuery()
+  const [mutateLogout] = useMutation<{ logout: Mutation['logout'] }>(
+    LogoutMutation,
+    {}
+  )
   const me = useMemo(() => {
     if (!data || meLoading) return null
     // eslint-disable-next-line no-shadow
@@ -20,12 +27,19 @@ const Header = () => {
   }, [data, meLoading])
   const handleLogout = useCallback(() => {
     setShowLoader(true)
-    storage.remove('@wamuseum-client/auth-token')
-    client.refetchQueries({
-      include: [ME_QUERY],
+    mutateLogout({
+      onCompleted: () => {
+        storage.remove('@wamuseum-client/auth-token')
+        client.refetchQueries({
+          include: [ME_QUERY],
+        })
+      },
+      onError: (error) => {
+        console.error(error)
+      },
     })
     setShowLoader(false)
-  }, [client])
+  }, [client, mutateLogout])
 
   useEffect(() => {
     refetch()
