@@ -25,16 +25,16 @@ import UploadFormDateInput from './UploadFormDateInput'
 import Loader from './Loader'
 import { presign, uploadToPresignedURL } from '../utils/fetcher'
 import pickFile from '../utils/pickFile'
-import { CONCERT_LIST_QUERY } from '../hooks/useConcertListQuery'
 import {
   DEFAULT_LIMIT,
   DEFAULT_ORDER_BY_CREATED_AT,
   DEFAULT_PAGE,
 } from '../utils/constants'
-import useConcertQuery, { CONCERT_QUERY } from '../hooks/useConcertQuery'
+import useConcertQuery from '../hooks/useConcertQuery'
 import useUpdateConcertMutation from '../hooks/useUpdateConcertMutation'
 import { CreateConcertInput } from '../gql/schema'
 import useConcertCategoryListQuery from '../hooks/useConcertCategoryListQuery'
+import { CONCERT_LIST_QUERY, CONCERT_QUERY } from '../gql/queries'
 
 type FormState = {
   concertCategoryId: number | null
