@@ -11,7 +11,7 @@ const storage = {
       const parsed = JSON.parse(value) as ParsedValueT
       return parsed
     } catch (e) {
-      if (typeof value === 'string') return value as string
+      console.error(e)
       return null
     }
   },

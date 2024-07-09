@@ -10,10 +10,9 @@ import { useCallback, useEffect, useState, useRef } from 'react'
 import { View } from 'react-native'
 import styled from 'styled-components'
 import useLoginMutation from '@/hooks/useLoginMutation'
-import { ME_QUERY } from '@/hooks/useMeQuery'
 import storage from '@/utils/storage/storage'
 import Loader from '@/ui/Loader'
-// eslint-disable-next-line import/no-extraneous-dependencies
+import { ME_QUERY } from '../../../gql/queries'
 
 const FormLayout = styled.section`
   position: absolute;
@@ -34,7 +33,7 @@ const FormLayout = styled.section`
   transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
 `
 
-const SigninPage = () => {
+const SignInPage = () => {
   const router = useRouter()
   const formRef = useRef<LoginFormRefHandle>(null)
   const [mutate, { data, loading, client }] = useLoginMutation()
@@ -116,4 +115,4 @@ const SigninPage = () => {
   )
 }
 
-export default SigninPage
+export default SignInPage

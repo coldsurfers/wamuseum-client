@@ -13,17 +13,11 @@ const httpLink = new HttpLink({
 })
 
 const authLink = setContext((_, { headers }) => {
-  const authToken = storage.get<string>('@wamuseum-client/auth-token')
-  const parsed: AuthToken = authToken
-    ? JSON.parse(authToken)
-    : {
-        accessToken: '',
-        refreshToken: '',
-      }
+  const authToken = storage.get<AuthToken>('@wamuseum-client/auth-token')
   return {
     headers: {
       ...headers,
-      authorization: parsed ? `${parsed.accessToken}` : '',
+      authorization: authToken ? `${authToken.accessToken}` : '',
     },
   }
 })

@@ -2,9 +2,10 @@ import { Button, palette } from '@coldsurfers/hotsurf'
 import { useRouter, usePathname } from 'next/navigation'
 import { memo, useCallback, useEffect, useMemo, useState } from 'react'
 import styled from 'styled-components'
-import useMeQuery, { ME_QUERY } from '../hooks/useMeQuery'
+import useMeQuery from '../hooks/useMeQuery'
 import storage from '../utils/storage/storage'
 import Loader from './Loader'
+import { ME_QUERY } from '../gql/queries'
 
 const Header = () => {
   const router = useRouter()
