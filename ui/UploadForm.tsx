@@ -349,7 +349,7 @@ const UploadForm = () => {
         ...prev,
         posterUrl: `${
           process.env.NEXT_PUBLIC_S3_BUCKET_URL
-        }/coldsurf/poster-thumbnails/${encodeURIComponent(filename)}`,
+        }/billets/poster-thumbnails/${encodeURIComponent(filename)}`,
       }))
     })
   }, [])
