@@ -116,7 +116,7 @@ const UploadForm = () => {
     useConcertCategoryListQuery()
   const { data: concertData, loading: concertLoading } = useConcertQuery({
     variables: {
-      concertId: +idParam!,
+      concertId: idParam!,
     },
     skip: !idParam,
   })
