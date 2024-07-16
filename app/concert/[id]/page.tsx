@@ -30,7 +30,7 @@ const ConcertIdPage = ({
     refetch: refetchConcert,
   } = useConcertQuery({
     variables: {
-      concertId: +id,
+      concertId: id,
     },
   })
   const [
@@ -51,7 +51,7 @@ const ConcertIdPage = ({
     switch (createConcertPosterData.createConcertPoster.__typename) {
       case 'ConcertPoster':
         refetchConcert({
-          concertId: +id,
+          concertId: id,
         })
         break
       default:

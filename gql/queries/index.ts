@@ -66,7 +66,7 @@ export const CONCERT_LIST_QUERY = gql`
 `
 
 export const CONCERT_QUERY = gql`
-  query Concert($concertId: Int!) {
+  query Concert($concertId: String!) {
     concert(id: $concertId) {
       ... on Concert {
         id

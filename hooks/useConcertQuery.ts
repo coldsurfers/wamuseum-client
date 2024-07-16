@@ -6,14 +6,14 @@ export default function useConcertQuery(
   options: QueryHookOptions<
     { concert: ConcertData },
     {
-      concertId: number
+      concertId: string
     }
   >
 ) {
   return useQuery<
     { concert: ConcertData },
     {
-      concertId: number
+      concertId: string
     }
   >(CONCERT_QUERY, options)
 }
