@@ -15,6 +15,12 @@ export type Scalars = {
   Float: { input: number; output: number; }
 };
 
+export type Artist = {
+  __typename?: 'Artist';
+  id: Scalars['String']['output'];
+  name: Scalars['String']['output'];
+};
+
 export type AuthToken = {
   __typename?: 'AuthToken';
   accessToken: Scalars['String']['output'];
@@ -30,32 +36,12 @@ export type AuthenticateEmailAuthRequestInput = {
 
 export type Concert = {
   __typename?: 'Concert';
-  artist?: Maybe<Scalars['String']['output']>;
-  concertCategory: ConcertCategory;
   createdAt: Scalars['String']['output'];
-  date?: Maybe<Scalars['String']['output']>;
+  date: Scalars['String']['output'];
   id: Scalars['String']['output'];
-  location?: Maybe<Scalars['String']['output']>;
-  posters?: Maybe<Array<Maybe<ConcertPoster>>>;
-  tickets?: Maybe<Array<Maybe<ConcertTicket>>>;
   title: Scalars['String']['output'];
   updatedAt?: Maybe<Scalars['String']['output']>;
 };
-
-export type ConcertCategory = {
-  __typename?: 'ConcertCategory';
-  id: Scalars['Int']['output'];
-  title: Scalars['String']['output'];
-};
-
-export type ConcertCategoryData = ConcertCategory | HttpError;
-
-export type ConcertCategoryList = {
-  __typename?: 'ConcertCategoryList';
-  list?: Maybe<Array<Maybe<ConcertCategory>>>;
-};
-
-export type ConcertCategoryListData = ConcertCategoryList | HttpError;
 
 export type ConcertData = Concert | HttpError;
 
@@ -76,33 +62,6 @@ export type ConcertListWithPagination = {
   pagination?: Maybe<Pagination>;
 };
 
-export type ConcertPoster = {
-  __typename?: 'ConcertPoster';
-  id: Scalars['String']['output'];
-  imageURL: Scalars['String']['output'];
-};
-
-export type ConcertTicket = {
-  __typename?: 'ConcertTicket';
-  id: Scalars['String']['output'];
-  openDate: Scalars['String']['output'];
-  seller: Scalars['String']['output'];
-  sellingURL: Scalars['String']['output'];
-  ticketPrices: Array<ConcertTicketPrice>;
-};
-
-export type ConcertTicketPrice = {
-  __typename?: 'ConcertTicketPrice';
-  id: Scalars['String']['output'];
-  price: Scalars['Float']['output'];
-  priceCurrency: Scalars['String']['output'];
-  title: Scalars['String']['output'];
-};
-
-export type CreateConcertCategoryInput = {
-  title: Scalars['String']['input'];
-};
-
 export type CreateConcertConcertTicketInput = {
   openDate: Scalars['String']['input'];
   seller: Scalars['String']['input'];
@@ -119,16 +78,11 @@ export type CreateConcertConcertTicketPricesInput = {
 export type CreateConcertData = Concert | HttpError;
 
 export type CreateConcertInput = {
-  artist: Scalars['String']['input'];
-  concertCategoryId: Scalars['Int']['input'];
   date: Scalars['String']['input'];
-  location: Scalars['String']['input'];
-  posterURLs: Array<Scalars['String']['input']>;
-  tickets: Array<CreateConcertConcertTicketInput>;
   title: Scalars['String']['input'];
 };
 
-export type CreateConcertPosterData = ConcertPoster | HttpError;
+export type CreateConcertPosterData = HttpError | Poster;
 
 export type CreateConcertPosterInput = {
   concertId: Scalars['String']['input'];
@@ -173,7 +127,6 @@ export type Mutation = {
   __typename?: 'Mutation';
   authenticateEmailAuthRequest?: Maybe<AuthenticateEmailAuthRequestData>;
   createConcert?: Maybe<CreateConcertData>;
-  createConcertCategory?: Maybe<ConcertCategoryData>;
   createConcertPoster?: Maybe<CreateConcertPosterData>;
   createEmailAuthRequest?: Maybe<EmailAuthRequest>;
   createUser?: Maybe<CreateUserData>;
@@ -193,11 +146,6 @@ export type MutationAuthenticateEmailAuthRequestArgs = {
 
 export type MutationCreateConcertArgs = {
   input: CreateConcertInput;
-};
-
-
-export type MutationCreateConcertCategoryArgs = {
-  input: CreateConcertCategoryInput;
 };
 
 
@@ -246,11 +194,23 @@ export type Pagination = {
   current: Scalars['Int']['output'];
 };
 
+export type Poster = {
+  __typename?: 'Poster';
+  id: Scalars['String']['output'];
+  imageURL: Scalars['String']['output'];
+};
+
+export type Price = {
+  __typename?: 'Price';
+  id: Scalars['String']['output'];
+  price: Scalars['Float']['output'];
+  priceCurrency: Scalars['String']['output'];
+  title: Scalars['String']['output'];
+};
+
 export type Query = {
   __typename?: 'Query';
   concert?: Maybe<ConcertData>;
-  concertCategory?: Maybe<ConcertCategoryData>;
-  concertCategoryList?: Maybe<ConcertCategoryListData>;
   concertList?: Maybe<ConcertListData>;
   me?: Maybe<UserData>;
   user?: Maybe<UserData>;
@@ -259,11 +219,6 @@ export type Query = {
 
 export type QueryConcertArgs = {
   id: Scalars['String']['input'];
-};
-
-
-export type QueryConcertCategoryArgs = {
-  id: Scalars['Int']['input'];
 };
 
 
@@ -278,38 +233,36 @@ export type QueryUserArgs = {
   id: Scalars['Int']['input'];
 };
 
-export type RemoveConcertData = HttpError | RemovedConcert;
+export type RemoveConcertData = Concert | HttpError;
 
 export type RemoveConcertInput = {
   id: Scalars['String']['input'];
 };
 
-export type RemovedConcert = {
-  __typename?: 'RemovedConcert';
+export type Ticket = {
+  __typename?: 'Ticket';
   id: Scalars['String']['output'];
+  openDate: Scalars['String']['output'];
+  seller: Scalars['String']['output'];
+  sellingURL: Scalars['String']['output'];
 };
 
 export type UpdateConcertData = Concert | HttpError;
 
 export type UpdateConcertInput = {
-  artist: Scalars['String']['input'];
-  concertCategoryId: Scalars['Int']['input'];
   date: Scalars['String']['input'];
   id: Scalars['String']['input'];
-  location: Scalars['String']['input'];
-  posterURLs?: InputMaybe<Array<Scalars['String']['input']>>;
-  tickets?: InputMaybe<Array<CreateConcertConcertTicketInput>>;
   title: Scalars['String']['input'];
 };
 
-export type UpdateConcertPosterData = ConcertPoster | HttpError;
+export type UpdateConcertPosterData = HttpError | Poster;
 
 export type UpdateConcertPosterInput = {
   id: Scalars['String']['input'];
   imageURL?: InputMaybe<Scalars['String']['input']>;
 };
 
-export type UpdateConcertTicketData = ConcertTicket | HttpError;
+export type UpdateConcertTicketData = HttpError | Ticket;
 
 export type UpdateConcertTicketInput = {
   id: Scalars['String']['input'];
@@ -322,7 +275,7 @@ export type User = {
   __typename?: 'User';
   createdAt?: Maybe<Scalars['String']['output']>;
   email: Scalars['String']['output'];
-  id: Scalars['Int']['output'];
+  id: Scalars['String']['output'];
   isAdmin?: Maybe<Scalars['Boolean']['output']>;
   password?: Maybe<Scalars['String']['output']>;
   passwordSalt?: Maybe<Scalars['String']['output']>;

@@ -24,30 +24,8 @@ export const CONCERT_LIST_QUERY = gql`
         list {
           list {
             id
-            artist
             title
-            location
             date
-            concertCategory {
-              id
-              title
-            }
-            posters {
-              id
-              imageURL
-            }
-            tickets {
-              id
-              openDate
-              seller
-              sellingURL
-              ticketPrices {
-                id
-                title
-                price
-                priceCurrency
-              }
-            }
             createdAt
             updatedAt
           }

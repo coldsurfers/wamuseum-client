@@ -141,7 +141,7 @@ export default function Page() {
       case 'HttpError':
         return [] as Concert[]
       case 'ConcertListWithPagination':
-        return data.concertList.list.list
+        return data.concertList.list?.list ?? []
       default:
         return [] as Concert[]
     }
@@ -151,7 +151,7 @@ export default function Page() {
     if (!data || data.concertList?.__typename !== 'ConcertListWithPagination') {
       return 0
     }
-    return data.concertList.pagination.count
+    return data.concertList.pagination?.count ?? 0
   }, [data])
 
   const pagination = useMemo(
@@ -163,7 +163,7 @@ export default function Page() {
   )
 
   const table = useReactTable<Concert>({
-    data: tableData,
+    data: tableData.filter((value) => value !== null) as Concert[],
     columns,
     pageCount,
     getCoreRowModel: getCoreRowModel(),
@@ -206,7 +206,7 @@ export default function Page() {
             <Tr key={row.id}>
               {row.getVisibleCells().map((cell) => (
                 <Td key={cell.id}>
-                  <Link href={`/concert/${tableData[index].id}`}>
+                  <Link href={`/concert/${tableData.at(index)?.id}`}>
                     {flexRender(cell.column.columnDef.cell, cell.getContext())}
                   </Link>
                 </Td>

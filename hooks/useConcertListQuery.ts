@@ -1,6 +1,6 @@
 import { QueryHookOptions, useQuery } from '@apollo/client'
-import { ConcertListData } from '../gql/schema'
 import { CONCERT_LIST_QUERY } from '../gql/queries'
+import { ConcertListData } from '../src/__generated__/graphql'
 
 export default function useConcertListQuery(
   options?: QueryHookOptions<
