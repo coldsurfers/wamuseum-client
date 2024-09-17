@@ -1,11 +1,14 @@
 import { AuthToken } from '../../gql/schema'
+import { urls } from '../../libs/constants'
 import storage from '../storage/storage'
 import { PresignedData } from './types'
 
 export const presign = async ({
+  type,
   filename,
   filetype,
 }: {
+  type: 'poster-thumbnails' | 'artist-profile-images'
   filename: string
   filetype: 'image/*'
 }): Promise<PresignedData> => {
@@ -13,7 +16,7 @@ export const presign = async ({
   const headers = new Headers()
   headers.append('Authorization', authToken?.accessToken ?? '')
   const result = await fetch(
-    `${process.env.NEXT_PUBLIC_FILE_UPLOAD_URI}?filename=${filename}&filetype=${filetype}`,
+    `${urls.fileUploadPresignedServer}/${type}?filename=${filename}&filetype=${filetype}`,
     {
       method: 'GET',
       headers,

@@ -65,6 +65,7 @@ const FillConcertForm = ({ concertId }: { concertId: string }) => {
       setUploadFileLoading(true)
       try {
         const presignedData = await presign({
+          type: 'poster-thumbnails',
           filename,
           filetype: 'image/*',
         })
