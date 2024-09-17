@@ -4,6 +4,7 @@ import { format } from 'date-fns'
 import { Button, Spinner } from '@coldsurfers/hotsurf'
 import { useMemo } from 'react'
 import styled from 'styled-components'
+import { useRouter } from 'next/navigation'
 import useConcertQuery from '../../../hooks/useConcertQuery'
 import useConcertPoster from './queries/useConcertPoster'
 import useConcertArtists from './queries/useConcertArtists'
@@ -11,6 +12,7 @@ import PosterUI from './components/PosterUI'
 import RegisteredArtist from './components/RegisteredArtist'
 import SearchArtistsUI from './components/SearchArtistsUI'
 import AddTicketsUI from './components/AddTicketsUI'
+import useRemoveConcert from './mutations/useRemoveConcert'
 
 const ConcertIdPage = ({
   params,
@@ -20,6 +22,7 @@ const ConcertIdPage = ({
   }
 }) => {
   const { id } = params
+  const router = useRouter()
 
   const { data: concertData, loading: concertLoading } = useConcertQuery({
     variables: {
@@ -37,6 +40,9 @@ const ConcertIdPage = ({
       concertId: id,
     },
   })
+
+  const [mutateRemoveConcert, { loading: removeConcertLoading }] =
+    useRemoveConcert({})
 
   const concert = useMemo(() => {
     if (!concertData?.concert) return null
@@ -134,19 +140,19 @@ const ConcertIdPage = ({
           onPress={() => router.push(`/upload?id=${concert?.id}`)}
           text="수정하기"
         /> */}
-        {/* <Button
+        <Button
           color="pink"
           onPress={() => {
             mutateRemoveConcert({
               variables: {
                 input: {
-                  id: concertId,
+                  id,
                 },
               },
               update: (cache, { data }) => {
                 if (!data || !data.removeConcert) return
                 const { removeConcert } = data
-                if (removeConcert.__typename !== 'RemovedConcert') return
+                if (removeConcert.__typename !== 'Concert') return
                 const normalizedId = cache.identify({
                   id: removeConcert.id,
                   __typename: 'Concert',
@@ -160,7 +166,7 @@ const ConcertIdPage = ({
           }}
           text="삭제하기"
           style={{ marginLeft: 10 }}
-        /> */}
+        />
       </ConfigButtonWrapper>
       <InnerWrapper>
         <LeftWrapper>
@@ -216,6 +222,7 @@ const ConcertIdPage = ({
           )}
         </RightWrapper>
       </InnerWrapper>
+      {removeConcertLoading ? <Spinner /> : null}
     </Wrapper>
   )
 }
