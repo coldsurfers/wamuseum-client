@@ -10,6 +10,7 @@ const createConcertArtistMutation = gql`
     createConcertArtist(input: $input) {
       ... on Artist {
         id
+        name
       }
     }
   }

@@ -2,7 +2,7 @@ import { gql, useQuery } from '@apollo/client'
 import { CommonQueryHookOptions } from '../../../../libs/types'
 import { ConcertArtistData } from '../../../../src/__generated__/graphql'
 
-const concertArtistsQuery = gql`
+export const concertArtistsQuery = gql`
   query ConcertArtists($concertId: String!) {
     concertArtists(concertId: $concertId) {
       ... on ArtistList {

@@ -6,6 +6,8 @@ import { useDebounce } from '@uidotdev/usehooks'
 import styled from 'styled-components'
 import useSearchArtists from '../queries/useSearchArtists'
 import useCreateConcertArtist from '../mutations/useCreateConcertArtist'
+import { concertArtistsQuery } from '../queries/useConcertArtists'
+import { ConcertArtistData } from '../../../../src/__generated__/graphql'
 
 const SearchResultWrapper = styled.div`
   box-shadow:
@@ -61,6 +63,45 @@ const SearchArtistsUI = ({ concertId }: { concertId: string }) => {
                       artistId: result.id,
                       concertId,
                     },
+                  },
+                  update: (cache, { data }) => {
+                    if (data?.createConcertArtist.__typename !== 'Artist') {
+                      return
+                    }
+                    const cacheData = cache.readQuery<
+                      {
+                        concertArtists: ConcertArtistData
+                      },
+                      {
+                        concertId: string
+                      }
+                    >({
+                      query: concertArtistsQuery,
+                      variables: {
+                        concertId,
+                      },
+                    })
+                    if (!cacheData) {
+                      return
+                    }
+                    const { concertArtists } = cacheData
+                    if (concertArtists.__typename === 'ArtistList') {
+                      cache.writeQuery({
+                        query: concertArtistsQuery,
+                        data: {
+                          concertArtists: {
+                            ...concertArtists,
+                            list: concertArtists.list?.concat({
+                              id: data.createConcertArtist.id,
+                              name: data.createConcertArtist.name,
+                            }),
+                          },
+                        },
+                        variables: {
+                          concertId,
+                        },
+                      })
+                    }
                   },
                 })
               }}
