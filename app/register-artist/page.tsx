@@ -104,6 +104,7 @@ const RegisterArtistPage = () => {
               variables: {
                 input: {
                   artistName,
+                  imageURL: artistProfileImageUrl,
                 },
               },
             })
