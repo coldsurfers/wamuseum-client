@@ -24,26 +24,8 @@ export const CreateConcertMutation = gql`
     createConcert(input: $input) {
       ... on Concert {
         id
-        artist
         title
-        location
         date
-        posters {
-          id
-          imageURL
-        }
-        tickets {
-          id
-          openDate
-          seller
-          sellingURL
-          ticketPrices {
-            id
-            title
-            price
-            priceCurrency
-          }
-        }
         createdAt
         updatedAt
       }
@@ -58,7 +40,7 @@ export const CreateConcertMutation = gql`
 export const CreateConcertPosterMutation = gql`
   mutation CreateConcertPoster($input: CreateConcertPosterInput!) {
     createConcertPoster(input: $input) {
-      ... on ConcertPoster {
+      ... on Poster {
         id
         imageURL
       }

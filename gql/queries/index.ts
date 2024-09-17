@@ -48,30 +48,8 @@ export const CONCERT_QUERY = gql`
     concert(id: $concertId) {
       ... on Concert {
         id
-        artist
         title
-        location
         date
-        concertCategory {
-          id
-          title
-        }
-        posters {
-          id
-          imageURL
-        }
-        tickets {
-          id
-          openDate
-          seller
-          sellingURL
-          ticketPrices {
-            id
-            title
-            price
-            priceCurrency
-          }
-        }
         createdAt
         updatedAt
       }
@@ -95,6 +73,19 @@ export const ME_QUERY = gql`
       ... on HttpError {
         code
         message
+      }
+    }
+  }
+`
+
+export const concertPosterQuery = gql`
+  query ConcertPoster($concertId: String!) {
+    concertPoster(concertId: $concertId) {
+      ... on PosterList {
+        list {
+          id
+          imageURL
+        }
       }
     }
   }

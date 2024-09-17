@@ -10,16 +10,15 @@ import { useRouter, useSearchParams } from 'next/navigation'
 import { useCallback, useEffect, useMemo, useState } from 'react'
 import { format } from 'date-fns'
 import styled from 'styled-components'
-import { palette, TextInput } from '@coldsurfers/hotsurf'
+import { palette, Spinner, TextInput } from '@coldsurfers/hotsurf'
 import Link from 'next/link'
 import {
   DEFAULT_PAGE,
   DEFAULT_LIMIT,
   DEFAULT_ORDER_BY_CREATED_AT,
 } from '../utils/constants'
-import Loader from '../ui/Loader'
 import useConcertListQuery from '../hooks/useConcertListQuery'
-import { Concert } from '../gql/schema'
+import { Concert } from '../src/__generated__/graphql'
 
 const columnHelper = createColumnHelper<Concert>()
 
@@ -39,7 +38,7 @@ export default function Page() {
   }>({
     createdAt: DEFAULT_ORDER_BY_CREATED_AT,
   })
-  const { data, loading } = useConcertListQuery({
+  const { data, loading: loadingConcertList } = useConcertListQuery({
     variables: {
       page,
       limit,
@@ -81,12 +80,12 @@ export default function Page() {
         cell: (info) => info.getValue(),
         // footer: (info) => info.column.id,
       }),
-      columnHelper.accessor((row) => row.concertCategory, {
-        id: 'concertCategory',
-        header: () => <span>카테고리</span>,
-        cell: (info) => info.getValue().title,
-        // footer: (info) => info.column.id,
-      }),
+      // columnHelper.accessor((row) => row.concertCategory, {
+      //   id: 'concertCategory',
+      //   header: () => <span>카테고리</span>,
+      //   cell: (info) => info.getValue().title,
+      //   // footer: (info) => info.column.id,
+      // }),
       columnHelper.accessor((row) => row.createdAt, {
         id: 'createdAt',
         header: () => (
@@ -114,12 +113,12 @@ export default function Page() {
         header: () => <span>공연 제목</span>,
         footer: (info) => info.column.id,
       }),
-      columnHelper.accessor((row) => row.artist, {
-        id: 'artist',
-        header: () => <span>아티스트</span>,
-        cell: (info) => info.renderValue(),
-        footer: (info) => info.column.id,
-      }),
+      // columnHelper.accessor((row) => row.artist, {
+      //   id: 'artist',
+      //   header: () => <span>아티스트</span>,
+      //   cell: (info) => info.renderValue(),
+      //   footer: (info) => info.column.id,
+      // }),
       columnHelper.accessor((row) => row.date, {
         id: 'date',
         header: () => <span>공연 일정</span>,
@@ -258,7 +257,7 @@ export default function Page() {
           }}
         />
       </TableBottom>
-      {loading && <Loader />}
+      {loadingConcertList && <Spinner />}
     </Wrapper>
   )
 }

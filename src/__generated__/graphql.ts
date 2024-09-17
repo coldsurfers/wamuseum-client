@@ -21,6 +21,11 @@ export type Artist = {
   name: Scalars['String']['output'];
 };
 
+export type ArtistList = {
+  __typename?: 'ArtistList';
+  list?: Maybe<Array<Maybe<Artist>>>;
+};
+
 export type AuthToken = {
   __typename?: 'AuthToken';
   accessToken: Scalars['String']['output'];
@@ -43,6 +48,8 @@ export type Concert = {
   updatedAt?: Maybe<Scalars['String']['output']>;
 };
 
+export type ConcertArtistData = ArtistList | HttpError;
+
 export type ConcertData = Concert | HttpError;
 
 export type ConcertList = {
@@ -60,6 +67,21 @@ export type ConcertListWithPagination = {
   __typename?: 'ConcertListWithPagination';
   list?: Maybe<ConcertList>;
   pagination?: Maybe<Pagination>;
+};
+
+export type ConcertPosterData = HttpError | PosterList;
+
+export type CreateArtistData = Artist | HttpError;
+
+export type CreateArtistInput = {
+  artistName: Scalars['String']['input'];
+};
+
+export type CreateConcertArtistData = Artist | HttpError;
+
+export type CreateConcertArtistInput = {
+  artistId: Scalars['String']['input'];
+  concertId: Scalars['String']['input'];
 };
 
 export type CreateConcertConcertTicketInput = {
@@ -87,6 +109,15 @@ export type CreateConcertPosterData = HttpError | Poster;
 export type CreateConcertPosterInput = {
   concertId: Scalars['String']['input'];
   imageURL: Scalars['String']['input'];
+};
+
+export type CreateConcertTicketData = HttpError | Ticket;
+
+export type CreateConcertTicketInput = {
+  concertId: Scalars['String']['input'];
+  openDate: Scalars['String']['input'];
+  seller: Scalars['String']['input'];
+  sellingURL: Scalars['String']['input'];
 };
 
 export type CreateEmailAuthRequestInput = {
@@ -126,8 +157,11 @@ export type LoginInput = {
 export type Mutation = {
   __typename?: 'Mutation';
   authenticateEmailAuthRequest?: Maybe<AuthenticateEmailAuthRequestData>;
+  createArtist?: Maybe<CreateArtistData>;
   createConcert?: Maybe<CreateConcertData>;
+  createConcertArtist?: Maybe<CreateConcertArtistData>;
   createConcertPoster?: Maybe<CreateConcertPosterData>;
+  createConcertTicket?: Maybe<CreateConcertTicketData>;
   createEmailAuthRequest?: Maybe<EmailAuthRequest>;
   createUser?: Maybe<CreateUserData>;
   login?: Maybe<LoginData>;
@@ -144,13 +178,28 @@ export type MutationAuthenticateEmailAuthRequestArgs = {
 };
 
 
+export type MutationCreateArtistArgs = {
+  input: CreateArtistInput;
+};
+
+
 export type MutationCreateConcertArgs = {
   input: CreateConcertInput;
 };
 
 
+export type MutationCreateConcertArtistArgs = {
+  input: CreateConcertArtistInput;
+};
+
+
 export type MutationCreateConcertPosterArgs = {
   input: CreateConcertPosterInput;
+};
+
+
+export type MutationCreateConcertTicketArgs = {
+  input: CreateConcertTicketInput;
 };
 
 
@@ -200,6 +249,11 @@ export type Poster = {
   imageURL: Scalars['String']['output'];
 };
 
+export type PosterList = {
+  __typename?: 'PosterList';
+  list?: Maybe<Array<Maybe<Poster>>>;
+};
+
 export type Price = {
   __typename?: 'Price';
   id: Scalars['String']['output'];
@@ -211,8 +265,11 @@ export type Price = {
 export type Query = {
   __typename?: 'Query';
   concert?: Maybe<ConcertData>;
+  concertArtists?: Maybe<ConcertArtistData>;
   concertList?: Maybe<ConcertListData>;
+  concertPoster?: Maybe<ConcertPosterData>;
   me?: Maybe<UserData>;
+  searchArtists?: Maybe<SearchArtistsData>;
   user?: Maybe<UserData>;
 };
 
@@ -222,10 +279,25 @@ export type QueryConcertArgs = {
 };
 
 
+export type QueryConcertArtistsArgs = {
+  concertId: Scalars['String']['input'];
+};
+
+
 export type QueryConcertListArgs = {
   limit: Scalars['Int']['input'];
   orderBy: ConcertListOrderBy;
   page: Scalars['Int']['input'];
+};
+
+
+export type QueryConcertPosterArgs = {
+  concertId: Scalars['String']['input'];
+};
+
+
+export type QuerySearchArtistsArgs = {
+  keyword: Scalars['String']['input'];
 };
 
 
@@ -238,6 +310,8 @@ export type RemoveConcertData = Concert | HttpError;
 export type RemoveConcertInput = {
   id: Scalars['String']['input'];
 };
+
+export type SearchArtistsData = ArtistList | HttpError;
 
 export type Ticket = {
   __typename?: 'Ticket';

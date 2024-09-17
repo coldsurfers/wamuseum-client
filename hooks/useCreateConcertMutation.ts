@@ -4,8 +4,11 @@ import {
   MutationHookOptions,
   useMutation,
 } from '@apollo/client'
-import { CreateConcertData, CreateConcertInput } from '../gql/schema'
 import { CreateConcertMutation } from '../gql/mutations'
+import {
+  CreateConcertData,
+  CreateConcertInput,
+} from '../src/__generated__/graphql'
 
 export default function useCreateConcertMutation(
   options?: MutationHookOptions<
