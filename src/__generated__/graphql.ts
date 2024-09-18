@@ -71,6 +71,8 @@ export type ConcertListWithPagination = {
 
 export type ConcertPosterData = HttpError | PosterList;
 
+export type ConcertTicketsData = HttpError | TicketList;
+
 export type CreateArtistData = Artist | HttpError;
 
 export type CreateArtistInput = {
@@ -169,6 +171,7 @@ export type Mutation = {
   logout: User;
   removeConcert?: Maybe<RemoveConcertData>;
   removeConcertArtist?: Maybe<RemoveConcertArtistData>;
+  removeConcertTicket?: Maybe<RemoveConcertTicketData>;
   updateConcert?: Maybe<UpdateConcertData>;
   updateConcertPoster?: Maybe<UpdateConcertPosterData>;
   updateConcertTicket?: Maybe<UpdateConcertTicketData>;
@@ -230,6 +233,11 @@ export type MutationRemoveConcertArtistArgs = {
 };
 
 
+export type MutationRemoveConcertTicketArgs = {
+  input: RemoveConcertTicketInput;
+};
+
+
 export type MutationUpdateConcertArgs = {
   input: UpdateConcertInput;
 };
@@ -275,6 +283,7 @@ export type Query = {
   concertArtists?: Maybe<ConcertArtistData>;
   concertList?: Maybe<ConcertListData>;
   concertPoster?: Maybe<ConcertPosterData>;
+  concertTickets?: Maybe<ConcertTicketsData>;
   me?: Maybe<UserData>;
   searchArtists?: Maybe<SearchArtistsData>;
   user?: Maybe<UserData>;
@@ -303,6 +312,11 @@ export type QueryConcertPosterArgs = {
 };
 
 
+export type QueryConcertTicketsArgs = {
+  concertId: Scalars['String']['input'];
+};
+
+
 export type QuerySearchArtistsArgs = {
   keyword: Scalars['String']['input'];
 };
@@ -325,6 +339,13 @@ export type RemoveConcertInput = {
   id: Scalars['String']['input'];
 };
 
+export type RemoveConcertTicketData = HttpError | Ticket;
+
+export type RemoveConcertTicketInput = {
+  concertId: Scalars['String']['input'];
+  ticketId: Scalars['String']['input'];
+};
+
 export type SearchArtistsData = ArtistList | HttpError;
 
 export type Ticket = {
@@ -333,6 +354,11 @@ export type Ticket = {
   openDate: Scalars['String']['output'];
   seller: Scalars['String']['output'];
   sellingURL: Scalars['String']['output'];
+};
+
+export type TicketList = {
+  __typename?: 'TicketList';
+  list?: Maybe<Array<Maybe<Ticket>>>;
 };
 
 export type UpdateConcertData = Concert | HttpError;

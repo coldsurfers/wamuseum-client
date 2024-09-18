@@ -4,12 +4,17 @@ import AddButton from '@/ui/AddButton'
 import InputWithLabel from '@/ui/InputWithLabel'
 import Label from '@/ui/Label'
 import UploadFormDateInput from '@/ui/UploadFormDateInput'
-import { Button } from '@coldsurfers/hotsurf'
+import { Button, Spinner } from '@coldsurfers/hotsurf'
 import format from 'date-fns/format'
 import isValid from 'date-fns/isValid'
 import { useCallback, useState } from 'react'
 import styled from 'styled-components'
 import useCreateConcertTicket from '../mutations/useCreateConcertTicket'
+import {
+  UseConcertTicketsDataT,
+  UseConcertTicketsInputT,
+  concertTicketsQuery,
+} from '../queries/useConcertTickets'
 
 const Content = styled.h3`
   font-size: 20px;
@@ -33,7 +38,8 @@ const formatDate = (date: Date) =>
     : '올바르지 않은 날짜입니다'
 
 const AddTicketsUI = ({ concertId }: { concertId: string }) => {
-  const [mutateCreateConcertTicket] = useCreateConcertTicket({})
+  const [mutateCreateConcertTicket, { loading: loadingCreateConcertTicket }] =
+    useCreateConcertTicket({})
 
   const [addTicketsForm, setAddTicketsForm] = useState<
     {
@@ -44,7 +50,7 @@ const AddTicketsUI = ({ concertId }: { concertId: string }) => {
     }[]
   >([])
 
-  const addTicket = useCallback(() => {
+  const addTicketInput = useCallback(() => {
     setAddTicketsForm((prev) =>
       prev.concat({
         name: '',
@@ -55,15 +61,16 @@ const AddTicketsUI = ({ concertId }: { concertId: string }) => {
     )
   }, [])
 
+  const removeTicketInput = useCallback((index: number) => {
+    setAddTicketsForm((prev) =>
+      prev.filter((value, prevIndex) => prevIndex !== index)
+    )
+  }, [])
+
   return (
     <>
       <Content style={{ display: 'flex', alignItems: 'center' }}>
-        <Label>티켓 정보</Label>
-        <AddButton
-          onPress={() => {
-            addTicket()
-          }}
-        />
+        <AddButton onPress={addTicketInput} />
       </Content>
       {addTicketsForm.map((ticket, ticketIndex) => (
         <div
@@ -151,6 +158,40 @@ const AddTicketsUI = ({ concertId }: { concertId: string }) => {
                       sellingURL: ticket.website,
                     },
                   },
+                  onCompleted: () => {
+                    removeTicketInput(ticketIndex)
+                  },
+                  update: (cache, { data }) => {
+                    if (data?.createConcertTicket.__typename !== 'Ticket') {
+                      return
+                    }
+                    const { createConcertTicket: addedConcertTicketData } = data
+                    const cacheData = cache.readQuery<
+                      UseConcertTicketsDataT,
+                      UseConcertTicketsInputT
+                    >({
+                      query: concertTicketsQuery,
+                      variables: {
+                        concertId,
+                      },
+                    })
+                    if (cacheData?.concertTickets.__typename === 'TicketList') {
+                      cache.writeQuery({
+                        query: concertTicketsQuery,
+                        variables: {
+                          concertId,
+                        },
+                        data: {
+                          concertTickets: {
+                            ...cacheData.concertTickets,
+                            list: cacheData.concertTickets.list?.concat({
+                              ...addedConcertTicketData,
+                            }),
+                          },
+                        },
+                      })
+                    }
+                  },
                 })
               }}
             />
@@ -170,6 +211,7 @@ const AddTicketsUI = ({ concertId }: { concertId: string }) => {
           </div>
         </div>
       ))}
+      {loadingCreateConcertTicket ? <Spinner /> : null}
     </>
   )
 }

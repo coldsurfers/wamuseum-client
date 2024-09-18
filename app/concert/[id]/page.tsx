@@ -13,6 +13,7 @@ import RegisteredArtist from './components/RegisteredArtist'
 import SearchArtistsUI from './components/SearchArtistsUI'
 import AddTicketsUI from './components/AddTicketsUI'
 import useRemoveConcert from './mutations/useRemoveConcert'
+import RegisteredTicketsUI from './components/RegisteredTicketsUI'
 
 const ConcertIdPage = ({
   params,
@@ -205,7 +206,8 @@ const ConcertIdPage = ({
               : '등록된 공연날짜가 없습니다.'}
           </Content>
 
-          {/* <RegisteredTicketsUI /> */}
+          <Label>티켓 정보</Label>
+          <RegisteredTicketsUI concertId={id} />
           <AddTicketsUI concertId={id} />
 
           <Label>등록일</Label>
