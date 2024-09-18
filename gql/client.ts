@@ -5,11 +5,12 @@ import { setContext } from '@apollo/client/link/context'
 import { onError } from '@apollo/client/link/error'
 import storage from '../utils/storage/storage'
 import { AuthToken } from './schema'
+import { urls } from '../libs/constants'
 
 const NON_AUTH_PATH_WHITE_LIST = ['/auth/signin', '/auth/request']
 
 const httpLink = new HttpLink({
-  uri: process.env.NEXT_PUBLIC_GRAPHQL_URI,
+  uri: urls.apolloServer,
 })
 
 const authLink = setContext((_, { headers }) => {

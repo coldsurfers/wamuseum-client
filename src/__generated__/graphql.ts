@@ -21,6 +21,11 @@ export type Artist = {
   name: Scalars['String']['output'];
 };
 
+export type ArtistList = {
+  __typename?: 'ArtistList';
+  list?: Maybe<Array<Maybe<Artist>>>;
+};
+
 export type AuthToken = {
   __typename?: 'AuthToken';
   accessToken: Scalars['String']['output'];
@@ -43,6 +48,8 @@ export type Concert = {
   updatedAt?: Maybe<Scalars['String']['output']>;
 };
 
+export type ConcertArtistData = ArtistList | HttpError;
+
 export type ConcertData = Concert | HttpError;
 
 export type ConcertList = {
@@ -60,6 +67,24 @@ export type ConcertListWithPagination = {
   __typename?: 'ConcertListWithPagination';
   list?: Maybe<ConcertList>;
   pagination?: Maybe<Pagination>;
+};
+
+export type ConcertPosterData = HttpError | PosterList;
+
+export type ConcertTicketsData = HttpError | TicketList;
+
+export type CreateArtistData = Artist | HttpError;
+
+export type CreateArtistInput = {
+  artistName: Scalars['String']['input'];
+  imageURL: Scalars['String']['input'];
+};
+
+export type CreateConcertArtistData = Artist | HttpError;
+
+export type CreateConcertArtistInput = {
+  artistId: Scalars['String']['input'];
+  concertId: Scalars['String']['input'];
 };
 
 export type CreateConcertConcertTicketInput = {
@@ -87,6 +112,15 @@ export type CreateConcertPosterData = HttpError | Poster;
 export type CreateConcertPosterInput = {
   concertId: Scalars['String']['input'];
   imageURL: Scalars['String']['input'];
+};
+
+export type CreateConcertTicketData = HttpError | Ticket;
+
+export type CreateConcertTicketInput = {
+  concertId: Scalars['String']['input'];
+  openDate: Scalars['String']['input'];
+  seller: Scalars['String']['input'];
+  sellingURL: Scalars['String']['input'];
 };
 
 export type CreateEmailAuthRequestInput = {
@@ -126,13 +160,18 @@ export type LoginInput = {
 export type Mutation = {
   __typename?: 'Mutation';
   authenticateEmailAuthRequest?: Maybe<AuthenticateEmailAuthRequestData>;
+  createArtist?: Maybe<CreateArtistData>;
   createConcert?: Maybe<CreateConcertData>;
+  createConcertArtist?: Maybe<CreateConcertArtistData>;
   createConcertPoster?: Maybe<CreateConcertPosterData>;
+  createConcertTicket?: Maybe<CreateConcertTicketData>;
   createEmailAuthRequest?: Maybe<EmailAuthRequest>;
   createUser?: Maybe<CreateUserData>;
   login?: Maybe<LoginData>;
   logout: User;
   removeConcert?: Maybe<RemoveConcertData>;
+  removeConcertArtist?: Maybe<RemoveConcertArtistData>;
+  removeConcertTicket?: Maybe<RemoveConcertTicketData>;
   updateConcert?: Maybe<UpdateConcertData>;
   updateConcertPoster?: Maybe<UpdateConcertPosterData>;
   updateConcertTicket?: Maybe<UpdateConcertTicketData>;
@@ -144,13 +183,28 @@ export type MutationAuthenticateEmailAuthRequestArgs = {
 };
 
 
+export type MutationCreateArtistArgs = {
+  input: CreateArtistInput;
+};
+
+
 export type MutationCreateConcertArgs = {
   input: CreateConcertInput;
 };
 
 
+export type MutationCreateConcertArtistArgs = {
+  input: CreateConcertArtistInput;
+};
+
+
 export type MutationCreateConcertPosterArgs = {
   input: CreateConcertPosterInput;
+};
+
+
+export type MutationCreateConcertTicketArgs = {
+  input: CreateConcertTicketInput;
 };
 
 
@@ -171,6 +225,16 @@ export type MutationLoginArgs = {
 
 export type MutationRemoveConcertArgs = {
   input: RemoveConcertInput;
+};
+
+
+export type MutationRemoveConcertArtistArgs = {
+  input: RemoveConcertArtistInput;
+};
+
+
+export type MutationRemoveConcertTicketArgs = {
+  input: RemoveConcertTicketInput;
 };
 
 
@@ -200,6 +264,11 @@ export type Poster = {
   imageURL: Scalars['String']['output'];
 };
 
+export type PosterList = {
+  __typename?: 'PosterList';
+  list?: Maybe<Array<Maybe<Poster>>>;
+};
+
 export type Price = {
   __typename?: 'Price';
   id: Scalars['String']['output'];
@@ -211,14 +280,23 @@ export type Price = {
 export type Query = {
   __typename?: 'Query';
   concert?: Maybe<ConcertData>;
+  concertArtists?: Maybe<ConcertArtistData>;
   concertList?: Maybe<ConcertListData>;
+  concertPoster?: Maybe<ConcertPosterData>;
+  concertTickets?: Maybe<ConcertTicketsData>;
   me?: Maybe<UserData>;
+  searchArtists?: Maybe<SearchArtistsData>;
   user?: Maybe<UserData>;
 };
 
 
 export type QueryConcertArgs = {
   id: Scalars['String']['input'];
+};
+
+
+export type QueryConcertArtistsArgs = {
+  concertId: Scalars['String']['input'];
 };
 
 
@@ -229,8 +307,30 @@ export type QueryConcertListArgs = {
 };
 
 
+export type QueryConcertPosterArgs = {
+  concertId: Scalars['String']['input'];
+};
+
+
+export type QueryConcertTicketsArgs = {
+  concertId: Scalars['String']['input'];
+};
+
+
+export type QuerySearchArtistsArgs = {
+  keyword: Scalars['String']['input'];
+};
+
+
 export type QueryUserArgs = {
   id: Scalars['Int']['input'];
+};
+
+export type RemoveConcertArtistData = Artist | HttpError;
+
+export type RemoveConcertArtistInput = {
+  artistId: Scalars['String']['input'];
+  concertId: Scalars['String']['input'];
 };
 
 export type RemoveConcertData = Concert | HttpError;
@@ -239,12 +339,26 @@ export type RemoveConcertInput = {
   id: Scalars['String']['input'];
 };
 
+export type RemoveConcertTicketData = HttpError | Ticket;
+
+export type RemoveConcertTicketInput = {
+  concertId: Scalars['String']['input'];
+  ticketId: Scalars['String']['input'];
+};
+
+export type SearchArtistsData = ArtistList | HttpError;
+
 export type Ticket = {
   __typename?: 'Ticket';
   id: Scalars['String']['output'];
   openDate: Scalars['String']['output'];
   seller: Scalars['String']['output'];
   sellingURL: Scalars['String']['output'];
+};
+
+export type TicketList = {
+  __typename?: 'TicketList';
+  list?: Maybe<Array<Maybe<Ticket>>>;
 };
 
 export type UpdateConcertData = Concert | HttpError;

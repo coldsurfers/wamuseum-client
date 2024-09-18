@@ -4,21 +4,25 @@ import {
   MutationHookOptions,
   useMutation,
 } from '@apollo/client'
-import { CreateConcertPosterMutation } from '../gql/mutations'
+import { CreateConcertPosterMutation } from '../../../../gql/mutations'
 import {
   CreateConcertPosterData,
   CreateConcertPosterInput,
-} from '../src/__generated__/graphql'
+} from '../../../../src/__generated__/graphql'
 
-export default function useCreateConcertPosterMutation(
+const useCreateConcertPoster = (
   options?: MutationHookOptions<
-    { createConcertPoster: CreateConcertPosterData },
-    { input: CreateConcertPosterInput },
+    {
+      createConcertPoster: CreateConcertPosterData
+    },
+    {
+      input: CreateConcertPosterInput
+    },
     DefaultContext,
     ApolloCache<any>
   >
-) {
-  return useMutation<
+) =>
+  useMutation<
     {
       createConcertPoster: CreateConcertPosterData
     },
@@ -26,4 +30,5 @@ export default function useCreateConcertPosterMutation(
       input: CreateConcertPosterInput
     }
   >(CreateConcertPosterMutation, options)
-}
+
+export default useCreateConcertPoster
