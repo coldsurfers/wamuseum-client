@@ -52,6 +52,14 @@ const Header = () => {
         {me && (
           <>
             <Button
+              onPress={() => router.push('/register-venue')}
+              text="공연장 등록"
+              style={{
+                marginRight: 12,
+                backgroundColor: palette.yellow,
+              }}
+            />
+            <Button
               onPress={() => router.push('/register-artist')}
               text="아티스트 등록"
               style={{
