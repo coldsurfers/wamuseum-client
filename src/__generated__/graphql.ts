@@ -168,6 +168,7 @@ export type Mutation = {
   login?: Maybe<LoginData>;
   logout: User;
   removeConcert?: Maybe<RemoveConcertData>;
+  removeConcertArtist?: Maybe<RemoveConcertArtistData>;
   updateConcert?: Maybe<UpdateConcertData>;
   updateConcertPoster?: Maybe<UpdateConcertPosterData>;
   updateConcertTicket?: Maybe<UpdateConcertTicketData>;
@@ -221,6 +222,11 @@ export type MutationLoginArgs = {
 
 export type MutationRemoveConcertArgs = {
   input: RemoveConcertInput;
+};
+
+
+export type MutationRemoveConcertArtistArgs = {
+  input: RemoveConcertArtistInput;
 };
 
 
@@ -304,6 +310,13 @@ export type QuerySearchArtistsArgs = {
 
 export type QueryUserArgs = {
   id: Scalars['Int']['input'];
+};
+
+export type RemoveConcertArtistData = Artist | HttpError;
+
+export type RemoveConcertArtistInput = {
+  artistId: Scalars['String']['input'];
+  concertId: Scalars['String']['input'];
 };
 
 export type RemoveConcertData = Concert | HttpError;

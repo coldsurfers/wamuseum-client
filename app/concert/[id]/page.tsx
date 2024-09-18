@@ -190,7 +190,9 @@ const ConcertIdPage = ({
           >
             {artistsResult.map((value) => {
               if (!value) return null
-              return <RegisteredArtist key={value.id} value={value} />
+              return (
+                <RegisteredArtist key={value.id} value={value} concertId={id} />
+              )
             }) || '등록된 아티스트가 없습니다.'}
             <SearchArtistsUI concertId={id} />
           </Content>
