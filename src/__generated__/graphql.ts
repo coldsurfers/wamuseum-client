@@ -123,6 +123,13 @@ export type CreateConcertTicketInput = {
   sellingURL: Scalars['String']['input'];
 };
 
+export type CreateConcertVenueData = HttpError | Venue;
+
+export type CreateConcertVenueInput = {
+  concertId: Scalars['String']['input'];
+  venueId: Scalars['String']['input'];
+};
+
 export type CreateEmailAuthRequestInput = {
   email: Scalars['String']['input'];
 };
@@ -173,6 +180,7 @@ export type Mutation = {
   createConcertArtist?: Maybe<CreateConcertArtistData>;
   createConcertPoster?: Maybe<CreateConcertPosterData>;
   createConcertTicket?: Maybe<CreateConcertTicketData>;
+  createConcertVenue?: Maybe<CreateConcertVenueData>;
   createEmailAuthRequest?: Maybe<EmailAuthRequest>;
   createUser?: Maybe<CreateUserData>;
   createVenue?: Maybe<CreateVenueData>;
@@ -214,6 +222,11 @@ export type MutationCreateConcertPosterArgs = {
 
 export type MutationCreateConcertTicketArgs = {
   input: CreateConcertTicketInput;
+};
+
+
+export type MutationCreateConcertVenueArgs = {
+  input: CreateConcertVenueInput;
 };
 
 
