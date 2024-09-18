@@ -135,6 +135,14 @@ export type CreateUserInput = {
   passwordConfirm: Scalars['String']['input'];
 };
 
+export type CreateVenueData = HttpError | Venue;
+
+export type CreateVenueInput = {
+  lat: Scalars['Float']['input'];
+  lng: Scalars['Float']['input'];
+  name: Scalars['String']['input'];
+};
+
 export type EmailAuthRequest = {
   __typename?: 'EmailAuthRequest';
   authcode: Scalars['String']['output'];
@@ -167,6 +175,7 @@ export type Mutation = {
   createConcertTicket?: Maybe<CreateConcertTicketData>;
   createEmailAuthRequest?: Maybe<EmailAuthRequest>;
   createUser?: Maybe<CreateUserData>;
+  createVenue?: Maybe<CreateVenueData>;
   login?: Maybe<LoginData>;
   logout: User;
   removeConcert?: Maybe<RemoveConcertData>;
@@ -215,6 +224,11 @@ export type MutationCreateEmailAuthRequestArgs = {
 
 export type MutationCreateUserArgs = {
   input: CreateUserInput;
+};
+
+
+export type MutationCreateVenueArgs = {
+  input: CreateVenueInput;
 };
 
 
@@ -401,4 +415,13 @@ export type UserWithAuthToken = {
   __typename?: 'UserWithAuthToken';
   authToken: AuthToken;
   user: User;
+};
+
+export type Venue = {
+  __typename?: 'Venue';
+  geohash: Scalars['String']['output'];
+  id: Scalars['String']['output'];
+  lat: Scalars['Float']['output'];
+  lng: Scalars['Float']['output'];
+  name: Scalars['String']['output'];
 };
