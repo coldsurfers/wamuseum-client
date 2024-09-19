@@ -14,6 +14,8 @@ import SearchArtistsUI from './components/SearchArtistsUI'
 import AddTicketsUI from './components/AddTicketsUI'
 import useRemoveConcert from './mutations/useRemoveConcert'
 import RegisteredTicketsUI from './components/RegisteredTicketsUI'
+import SearchConcertVenueUI from './components/SearchConcertVenueUI'
+import useConcertVenues from './queries/useConcertVenues'
 
 const ConcertIdPage = ({
   params,
@@ -37,6 +39,11 @@ const ConcertIdPage = ({
     },
   })
   const { data: concertPosterData } = useConcertPoster({
+    variables: {
+      concertId: id,
+    },
+  })
+  const { data: concertVenuesData } = useConcertVenues({
     variables: {
       concertId: id,
     },
@@ -70,6 +77,13 @@ const ConcertIdPage = ({
     }
     return []
   }, [concertArtists])
+
+  const venuesResult = useMemo(() => {
+    if (concertVenuesData?.concertVenues.__typename === 'ConcertVenueList') {
+      return concertVenuesData.concertVenues.list ?? []
+    }
+    return []
+  }, [concertVenuesData])
 
   // const onClickCreatePoster = useCallback(() => {
   //   if (!concert) return
@@ -123,11 +137,6 @@ const ConcertIdPage = ({
   //   })
   // }, [mutateUpdateConcertPoster, thumbnail])
 
-  // const tickets = useMemo(() => {
-  //   if (!concert?.tickets) return []
-  //   return concert.tickets
-  // }, [concert?.tickets])
-
   if (concertLoading) {
     return <Spinner />
   }
@@ -136,11 +145,6 @@ const ConcertIdPage = ({
     <Wrapper>
       <Title>{concert?.title}</Title>
       <ConfigButtonWrapper>
-        {/* <Button
-          color="transparentDarkGray"
-          onPress={() => router.push(`/upload?id=${concert?.id}`)}
-          text="수정하기"
-        /> */}
         <Button
           color="pink"
           onPress={() => {
@@ -198,7 +202,13 @@ const ConcertIdPage = ({
             <SearchArtistsUI concertId={id} />
           </Content>
           <Label>공연장소</Label>
-          {/* <Content>{location || '등록된 공연장소가 없습니다.'}</Content> */}
+          <Content>
+            {venuesResult.map((value) => {
+              if (!value) return null
+              return <div key={value.id}>{value.name}</div>
+            }) || '등록된 공연장소가 없습니다.'}
+          </Content>
+          <SearchConcertVenueUI concertId={id} />
           <Label>공연 날짜</Label>
           <Content>
             {concert?.date

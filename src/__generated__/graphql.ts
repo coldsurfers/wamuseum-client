@@ -73,6 +73,13 @@ export type ConcertPosterData = HttpError | PosterList;
 
 export type ConcertTicketsData = HttpError | TicketList;
 
+export type ConcertVenueData = ConcertVenueList | HttpError;
+
+export type ConcertVenueList = {
+  __typename?: 'ConcertVenueList';
+  list?: Maybe<Array<Maybe<Venue>>>;
+};
+
 export type CreateArtistData = Artist | HttpError;
 
 export type CreateArtistInput = {
@@ -311,8 +318,10 @@ export type Query = {
   concertList?: Maybe<ConcertListData>;
   concertPoster?: Maybe<ConcertPosterData>;
   concertTickets?: Maybe<ConcertTicketsData>;
+  concertVenues?: Maybe<ConcertVenueData>;
   me?: Maybe<UserData>;
   searchArtists?: Maybe<SearchArtistsData>;
+  searchConcertVenue?: Maybe<SearchConcertVenueData>;
   searchVenue?: Maybe<SearchVenueData>;
   user?: Maybe<UserData>;
 };
@@ -345,7 +354,17 @@ export type QueryConcertTicketsArgs = {
 };
 
 
+export type QueryConcertVenuesArgs = {
+  concertId: Scalars['String']['input'];
+};
+
+
 export type QuerySearchArtistsArgs = {
+  keyword: Scalars['String']['input'];
+};
+
+
+export type QuerySearchConcertVenueArgs = {
   keyword: Scalars['String']['input'];
 };
 
@@ -381,7 +400,14 @@ export type RemoveConcertTicketInput = {
 
 export type SearchArtistsData = ArtistList | HttpError;
 
+export type SearchConcertVenueData = HttpError | SearchedConcertVenueList;
+
 export type SearchVenueData = HttpError | SearchedVenueList;
+
+export type SearchedConcertVenueList = {
+  __typename?: 'SearchedConcertVenueList';
+  list?: Maybe<Array<Maybe<Venue>>>;
+};
 
 export type SearchedVenue = {
   __typename?: 'SearchedVenue';
