@@ -313,6 +313,7 @@ export type Query = {
   concertTickets?: Maybe<ConcertTicketsData>;
   me?: Maybe<UserData>;
   searchArtists?: Maybe<SearchArtistsData>;
+  searchVenue?: Maybe<SearchVenueData>;
   user?: Maybe<UserData>;
 };
 
@@ -349,6 +350,11 @@ export type QuerySearchArtistsArgs = {
 };
 
 
+export type QuerySearchVenueArgs = {
+  keyword: Scalars['String']['input'];
+};
+
+
 export type QueryUserArgs = {
   id: Scalars['Int']['input'];
 };
@@ -374,6 +380,29 @@ export type RemoveConcertTicketInput = {
 };
 
 export type SearchArtistsData = ArtistList | HttpError;
+
+export type SearchVenueData = HttpError | SearchedVenueList;
+
+export type SearchedVenue = {
+  __typename?: 'SearchedVenue';
+  address_name?: Maybe<Scalars['String']['output']>;
+  category_group_code?: Maybe<Scalars['String']['output']>;
+  category_group_name?: Maybe<Scalars['String']['output']>;
+  category_name?: Maybe<Scalars['String']['output']>;
+  distance?: Maybe<Scalars['String']['output']>;
+  id?: Maybe<Scalars['String']['output']>;
+  phone?: Maybe<Scalars['String']['output']>;
+  place_name?: Maybe<Scalars['String']['output']>;
+  place_url?: Maybe<Scalars['String']['output']>;
+  road_address_name?: Maybe<Scalars['String']['output']>;
+  x?: Maybe<Scalars['String']['output']>;
+  y?: Maybe<Scalars['String']['output']>;
+};
+
+export type SearchedVenueList = {
+  __typename?: 'SearchedVenueList';
+  list?: Maybe<Array<Maybe<SearchedVenue>>>;
+};
 
 export type Ticket = {
   __typename?: 'Ticket';
