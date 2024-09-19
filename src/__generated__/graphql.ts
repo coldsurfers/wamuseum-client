@@ -196,6 +196,7 @@ export type Mutation = {
   removeConcert?: Maybe<RemoveConcertData>;
   removeConcertArtist?: Maybe<RemoveConcertArtistData>;
   removeConcertTicket?: Maybe<RemoveConcertTicketData>;
+  removeConcertVenue?: Maybe<RemoveConcertVenueData>;
   updateConcert?: Maybe<UpdateConcertData>;
   updateConcertPoster?: Maybe<UpdateConcertPosterData>;
   updateConcertTicket?: Maybe<UpdateConcertTicketData>;
@@ -269,6 +270,11 @@ export type MutationRemoveConcertArtistArgs = {
 
 export type MutationRemoveConcertTicketArgs = {
   input: RemoveConcertTicketInput;
+};
+
+
+export type MutationRemoveConcertVenueArgs = {
+  input: RemoveConcertVenueInput;
 };
 
 
@@ -396,6 +402,13 @@ export type RemoveConcertTicketData = HttpError | Ticket;
 export type RemoveConcertTicketInput = {
   concertId: Scalars['String']['input'];
   ticketId: Scalars['String']['input'];
+};
+
+export type RemoveConcertVenueData = HttpError | Venue;
+
+export type RemoveConcertVenueInput = {
+  concertId: Scalars['String']['input'];
+  venueId: Scalars['String']['input'];
 };
 
 export type SearchArtistsData = ArtistList | HttpError;

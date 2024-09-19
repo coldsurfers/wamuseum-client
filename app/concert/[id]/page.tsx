@@ -15,7 +15,12 @@ import AddTicketsUI from './components/AddTicketsUI'
 import useRemoveConcert from './mutations/useRemoveConcert'
 import RegisteredTicketsUI from './components/RegisteredTicketsUI'
 import SearchConcertVenueUI from './components/SearchConcertVenueUI'
-import useConcertVenues from './queries/useConcertVenues'
+import useConcertVenues, {
+  UseConcertVenuesDataT,
+  UseConcertVenuesInputT,
+  concertVenuesQuery,
+} from './queries/useConcertVenues'
+import useRemoveConcertVenue from './mutations/useRemoveConcertVenue'
 
 const ConcertIdPage = ({
   params,
@@ -51,6 +56,9 @@ const ConcertIdPage = ({
 
   const [mutateRemoveConcert, { loading: removeConcertLoading }] =
     useRemoveConcert({})
+
+  const [mutateRemoveConcertVenue, { loading: removeConcertVenueLoading }] =
+    useRemoveConcertVenue({})
 
   const concert = useMemo(() => {
     if (!concertData?.concert) return null
@@ -205,7 +213,70 @@ const ConcertIdPage = ({
           <Content>
             {venuesResult.map((value) => {
               if (!value) return null
-              return <div key={value.id}>{value.name}</div>
+              return (
+                <div
+                  key={value.id}
+                  style={{ display: 'flex', alignItems: 'center' }}
+                >
+                  <div>{value.name}</div>
+                  <Button
+                    style={{
+                      width: 10,
+                      height: 10,
+                      marginLeft: 8,
+                    }}
+                    text={'✘'}
+                    color={'pink'}
+                    onPress={() => {
+                      mutateRemoveConcertVenue({
+                        variables: {
+                          input: {
+                            concertId: id,
+                            venueId: value.id,
+                          },
+                        },
+                        update: (cache, { data }) => {
+                          if (data?.removeConcertVenue.__typename !== 'Venue') {
+                            return
+                          }
+                          const { id: removedConcertVenueId } =
+                            data.removeConcertVenue
+                          const cacheData = cache.readQuery<
+                            UseConcertVenuesDataT,
+                            UseConcertVenuesInputT
+                          >({
+                            query: concertVenuesQuery,
+                            variables: {
+                              concertId: id,
+                            },
+                          })
+                          if (!cacheData) {
+                            return
+                          }
+                          const { concertVenues } = cacheData
+                          if (concertVenues.__typename === 'ConcertVenueList') {
+                            cache.writeQuery({
+                              query: concertVenuesQuery,
+                              variables: {
+                                concertId: id,
+                              },
+                              data: {
+                                concertVenues: {
+                                  ...concertVenues,
+                                  list: concertVenues.list?.filter(
+                                    (venue) =>
+                                      venue?.id !== removedConcertVenueId
+                                  ),
+                                },
+                              },
+                            })
+                          }
+                        },
+                      })
+                    }}
+                  />
+                </div>
+              )
             }) || '등록된 공연장소가 없습니다.'}
           </Content>
           <SearchConcertVenueUI concertId={id} />
@@ -236,7 +307,7 @@ const ConcertIdPage = ({
           )}
         </RightWrapper>
       </InnerWrapper>
-      {removeConcertLoading ? <Spinner /> : null}
+      {removeConcertLoading || removeConcertVenueLoading ? <Spinner /> : null}
     </Wrapper>
   )
 }
